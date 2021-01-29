@@ -4,10 +4,9 @@ input slow_clk,
 input rst,
 input out,
 input [3:0] data_in,
-output   [3:0]data_out
+output reg [3:0]data_out
 );
 reg a, b,c,d;
-reg [3:0] data_in_r;
 always@(posedge slow_clk or posedge rst)
 begin
 	if(rst) a <= 1'b0;
@@ -26,17 +25,16 @@ always@(posedge fast_clk or posedge rst)
 	end
 
 assign sync_clk = d^c;
-assign data_out = sync_clk? data_in:0;
-/*always@(posedge fast_clk)
+//assign data_out = sync_clk? data_in:0;
+
+always@(posedge fast_clk)
 begin
 	if(rst)begin
-		data_in_r <= 0;
 		data_out <= 0;
 	end
 		else if(sync_clk==1)  begin
-		data_in_r <= data_in;
-		data_out <= data_in_r;
+		data_out <= data_in;
 	end
 end
-*/
+
 endmodule
